@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showHome(email: String, provider: providerType){
-        val homeIntent = Intent(this, MainActivity2::class.java).apply {
+        val homeIntent = Intent(this, Maps::class.java).apply {
            putExtra("email", email)
             //putExtra("provider", provider.name)
         }

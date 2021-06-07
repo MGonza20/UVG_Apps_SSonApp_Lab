@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SingleSignOn_UVG</string>
+    <string name="prefs_file">com.uvg.singlesignon_uvg.PREFERENCE_FILE_KEY</string>
 </resources>

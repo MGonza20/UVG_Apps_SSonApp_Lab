@@ -19,6 +19,11 @@ import com.google.firebase.auth.GoogleAuthProvider
  * @author Sara Paguaga 20634
  */
 
+/** 
+* Referencia: https://youtu.be/xjsgRe7FTCU
+*/
+
+
 class MainActivity : AppCompatActivity() {
 
     private val GOOGLE_SIGN_IN = 100

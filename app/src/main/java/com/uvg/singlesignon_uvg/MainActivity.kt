@@ -15,6 +15,10 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
+/**
+ * @author Sara Paguaga 20634
+ */
+
 class MainActivity : AppCompatActivity() {
 
     private val GOOGLE_SIGN_IN = 100
@@ -28,13 +32,6 @@ class MainActivity : AppCompatActivity() {
         sesion()
     }
 
-    /**
-    override fun onStart() {
-        super.onStart()
-
-        autentiLayout.visibility = View.VISIBLE
-    }
-    **/
 
     private fun sesion() {
 
@@ -43,40 +40,13 @@ class MainActivity : AppCompatActivity() {
         val provider = prefs.getString("provider", null)
 
         if(email != null && provider != null){
-         //   autentiLayout.visibility = View.INVISIBLE /////
-            showHome(email, providerType.valueOf(provider))
+            showHome(email)
         }
     }
 
     private fun setup(){
         title = "Autenticación"
-/**
-        SignUpButton.setOnClickListener {
-            if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()) {
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailEditText.text.toString(), passwordEditText.text.toString()).addOnCompleteListener {
 
-                    if(it.isSuccessful) {
-                        showHome(it.result?.user?.email ?: "", ProviderType.BASIC)
-                    } else{
-                        ShowAlert()
-                    }
-                }
-            }
-        }
-
-        loginButton.setOnClickListener {
-            if (emailEditText.text.isNotEmpty() && passwordEditText.text.isNotEmpty()) {
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(emailEditText.text.toString(), passwordEditText.text.toString()).addOnCompleteListener {
-
-                    if(it.isSuccessful) {
-                        showHome(it.result?.user?.email ?: "", ProviderType.BASIC)
-                    } else{
-                        ShowAlert()
-                    }
-                }
-            }
-        }
-**/
             GoogleBtn.setOnClickListener {
 
                 val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -92,31 +62,25 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     private fun ShowAlert(){
-
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")
-        builder.setMessage("error al momento de autenticar al usuario")
+        builder.setMessage("Error al momento de autenticar al usuario")
         builder.setPositiveButton("Aceptar", null)
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
 
-    private fun showHome(email: String, provider: providerType){
+
+    private fun showHome(email: String){
         val homeIntent = Intent(this, Maps::class.java).apply {
            putExtra("email", email)
-            //putExtra("provider", provider.name)
         }
-        val t = Toast.makeText(this, "Nueva pantalla", Toast.LENGTH_SHORT)
-        t.show()
         startActivity(homeIntent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if(requestCode == GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
@@ -127,86 +91,16 @@ class MainActivity : AppCompatActivity() {
                     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
 
                         if(it.isSuccessful) {
-                            showHome(account.email ?: "", providerType.GOOGLE)
+                            showHome(account.email ?: "")
                         } else{
                             ShowAlert()
                         }
                     }
 
                 }
-
             }catch (e: ApiException){
                 ShowAlert()
             }
         }
     }
-
-
-
-    /**
-    private lateinit var auth: FirebaseAuth
-    private lateinit var googleSignInClient: GoogleSignInClient
-    private val TAG: String = "Sign In"
-    private val RC_SIGN_IN: Int = 1
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        auth = FirebaseAuth.getInstance()
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("AIzaSyCxXnTcdtlBp4_KfknpW6O1Qlj3YK3n5JY")
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-        var btnIniciar = findViewById<Button>(R.id.btnIniciarSesion)
-        btnIniciar.setOnClickListener { signIn() }
-    }
-
-    private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-     // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-            // Google Sign In was successful, authenticate with Firebase
-            val account = task.getResult(ApiException::class.java)!!
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-            // Google Sign In failed, update UI appropriately
-            Log.w(TAG, "Google sign in failed", e)
-            }
-        }
-    }
-
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
-                Log.d(TAG, "signInWithCredential:success")
-                    val user = auth.currentUser
-                //updateUI(user)
-                } else {
-                // If sign in fails, display a message to the user.
-                Log.w(TAG, "signInWithCredential:failure", task.exception)
-                //updateUI(null)
-                }
-            }
-    }
-
-    **/
-
-
 }

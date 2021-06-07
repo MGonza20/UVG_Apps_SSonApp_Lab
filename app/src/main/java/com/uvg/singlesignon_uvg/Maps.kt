@@ -12,6 +12,11 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+/**
+ * @author Sara Paguaga 20634
+ */
+
+
 class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
     private lateinit var map:GoogleMap
@@ -21,9 +26,16 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        title = "Mapa"
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         createFragment()
+
+        val bundle = intent.extras
+        val email = bundle?.getString("email")
+
+        Toast.makeText(this, "Bienvenid@! " + email, Toast.LENGTH_SHORT).show()
+
     }
 
     private fun createFragment() {
@@ -72,7 +84,6 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
     }
 
 
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -90,9 +101,7 @@ class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButt
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "Boton presiobado", Toast.LENGTH_SHORT).show()
         return false
     }
-
 
 }

@@ -16,6 +16,9 @@ import com.google.android.gms.maps.model.MarkerOptions
  * @author Sara Paguaga 20634
  */
 
+/**
+*Referencia: https://youtu.be/L6B8LUGp2VA
+*/
 
 class Maps : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
